@@ -6,6 +6,9 @@ import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @NoArgsConstructor
 @Table(name = "DESTINATION")
@@ -21,10 +24,22 @@ public class Destination {
     @Column(name = "DESTINATION_TYPE", nullable = false)
     private DestinationType destinationType;
 
+    @ManyToMany(mappedBy = "destinations")
+    private Set<BucketList> bucketLists = new HashSet<>();
+
     @Autowired
-    public Destination(String name, DestinationType destinationType) {
+    public Destination(String name, DestinationType destinationType, Set<BucketList> bucketLists) {
         this.name = name;
         this.destinationType = destinationType;
+        this.bucketLists = bucketLists;
+    }
+
+    public Set<BucketList> getBucketLists() {
+        return bucketLists;
+    }
+
+    public void setBucketLists(Set<BucketList> bucketLists) {
+        this.bucketLists = bucketLists;
     }
 
     public Long getDestinationId() {
@@ -57,6 +72,7 @@ public class Destination {
                 "destinationId=" + destinationId +
                 ", name='" + name + '\'' +
                 ", destinationType=" + destinationType +
+                ", bucketLists=" + bucketLists +
                 '}';
     }
 }

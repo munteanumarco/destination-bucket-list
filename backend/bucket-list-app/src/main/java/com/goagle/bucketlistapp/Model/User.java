@@ -32,7 +32,11 @@ public class User {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_id", referencedColumnName = "profileId")
-    private UserProfile userProfile;
+    private UserProfile userProfile; // each user has a profile
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bucket_list_id", referencedColumnName = "bucketListId")
+    private BucketList bucketList; // each user has a bucket list
 
     @Autowired
     public User(String username, String password){
@@ -84,13 +88,23 @@ public class User {
         this.userRole = userRole;
     }
 
+    public BucketList getBucketList() {
+        return bucketList;
+    }
+
+    public void setBucketList(BucketList bucketList) {
+        this.bucketList = bucketList;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "userId=" + userId +
                 ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
                 ", userRole=" + userRole +
                 ", userProfile=" + userProfile +
+                ", bucketList=" + bucketList +
                 '}';
     }
 }
